@@ -10,7 +10,7 @@ app.use(express.json());
 app.use(express.urlencoded());
 app.use(cors());
 
-app.use('/app',apiRouter);
+app.use('/api',apiRouter);
 
 app.get('/ping',(req,res) => {
     return res.json({message: 'PONG'});
