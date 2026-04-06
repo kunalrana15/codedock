@@ -1,4 +1,4 @@
-import { Button } from 'antd'
+import { Row,Col, Button, Flex } from 'antd'
 import { useCreateProject } from "../hooks/apis/mutations/useCreateProject"
 
 
@@ -17,12 +17,16 @@ export const CreateProject = () => {
     }
 
     return (
-        <div>
-            <Button
-            onClick={handleCreateProject}
-            >
-                Create Playground
-            </Button>
-        </div>
+        <Row>
+            <Col span={24} >
+              <Flex justify='center' align='center'>
+                <Button
+                 type='primary'
+                 onClick={handleCreateProject} >
+                    Create Playground
+                </Button>
+              </Flex>
+            </Col>
+        </Row>
     )
 }
