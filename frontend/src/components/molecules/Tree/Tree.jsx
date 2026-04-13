@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { IoIosArrowDown, IoIosArrowForward } from "react-icons/io";
+import { FileIcon } from "../../atoms/FileIcon/FileIcon";
 
 export const Tree = ({
     fileFolderData
@@ -12,6 +13,11 @@ export const Tree = ({
             ...visbility,
             [name]: !visbility[name]
         })
+    }
+
+    function computeExtension(fileFolderData) {
+        const names = fileFolderData.name.split(".");
+        return names[names.length-1];
     }
 
     return (
@@ -30,7 +36,7 @@ export const Tree = ({
                     cursor: 'pointer',
                     outline: 'none',
                     color: 'white',
-                    backgroundColor: "black",
+                    backgroundColor: "transparent",
                     paddingTop: '15px',
                     fontSize: '16px'
                  }} >
@@ -39,17 +45,20 @@ export const Tree = ({
                 </button>
             ) : (
                 /** If current node is not a file i.e. File, render it as a file */
-                <p
-                  style={{
-                    paddingTop: "10px",
-                    fontSize: "15px",
-                    cursor: "pointer",
-                    backgroundColor: "black",
-                    marginLeft: "5px"
-                  }}
-                >
-                    { fileFolderData.name }
-                </p>
+                <div style={{ display: 'flex', alignItems: 'center' }} >
+                    <FileIcon extension={ computeExtension(fileFolderData) } />
+                    <p
+                    style={{
+                        paddingTop: "10px",
+                        fontSize: "15px",
+                        cursor: "pointer",
+                        backgroundColor: "black",
+                        marginLeft: "5px"
+                    }}
+                    >
+                        { fileFolderData.name }
+                    </p> 
+                </div>
             )}
 
             {visbility[fileFolderData.name] && fileFolderData.children && (
