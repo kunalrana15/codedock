@@ -6,6 +6,7 @@ import { PORT } from './config/serverConfig.js';
 import { createServer } from "http";
 import chokidar from 'chokidar';
 import path from 'path';
+import queryString from 'query-string';
 import { handleEditorSocketEvents } from './sockerHandlers/editorHandler.js';
 
 const app = express();
@@ -40,7 +41,8 @@ editorNamespace.on('connection',(socket) => {
     console.log("Editor Connected");
 
     // somehow we will get the projectId from frontend
-    let projectId = "123";
+    const queryParams = queryString.parse(socket.handshake.query);
+    let projectId = queryParams.projectId;
 
     if(projectId) {
         var watcher = chokidar.watch(`./projects/${projectId}`,{

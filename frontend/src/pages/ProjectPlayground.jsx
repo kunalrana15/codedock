@@ -4,13 +4,23 @@ import { EditorButton } from "../components/atoms/EditorButton/EditorButton";
 import { TreeStructure } from "../components/organisms/TreeStructure/TreeStructure";
 import { useEffect } from "react";
 import { useTreeStructureStore } from "../store/treeStructureStore";
+import { useEditorSocketStore } from "../store/editorSocketStore";
+import { io } from 'socket.io-client'
 
 export const ProjectPlayground = () => {
 
     const {projectId: projectIdFromUrl} =  useParams();
     const { setProjectId,projectId } = useTreeStructureStore();
 
+    const { setEditorSocket } = useEditorSocketStore();
+
     useEffect(() => {
+        const editorSocketConnection = io("http://localhost:5000/editor",{
+            query: {
+                projectId: projectIdFromUrl
+            }
+        });
+        setEditorSocket(editorSocketConnection);
         setProjectId(projectIdFromUrl)
     },[]);
 
