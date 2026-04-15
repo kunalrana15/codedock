@@ -4,7 +4,7 @@ export const useEditorSocketStore = create((set) => ({
     editorSocket: null,
     setEditorSocket: (incomingSocket) => {
         set({
-            socket: incomingSocket
+            editorSocket: incomingSocket
         });
     }
 }));

@@ -15,13 +15,16 @@ export const ProjectPlayground = () => {
     const { setEditorSocket } = useEditorSocketStore();
 
     useEffect(() => {
-        const editorSocketConnection = io("http://localhost:5000/editor",{
+        if(projectIdFromUrl){
+            const editorSocketConnection = io("http://localhost:5000/editor",{
             query: {
                 projectId: projectIdFromUrl
             }
         });
+        console.log("EDOTR",editorSocketConnection)
         setEditorSocket(editorSocketConnection);
         setProjectId(projectIdFromUrl)
+        }
     },[]);
 
     return (
