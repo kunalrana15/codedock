@@ -6,7 +6,6 @@ import { PORT } from './config/serverConfig.js';
 import { createServer } from "http";
 import chokidar from 'chokidar';
 import path from 'path';
-import queryString from 'query-string';
 import { handleEditorSocketEvents } from './sockerHandlers/editorHandler.js';
 
 const app = express();

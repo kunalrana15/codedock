@@ -1,32 +1,33 @@
 import Editor from "@monaco-editor/react";
+import { useActiveFileTabStore } from "../../../store/activeFileTabStore";
 import { useEditorSocketStore } from "../../../store/editorSocketStore";
-import { useActiveFileTabStore } from "../../../store/activeFileTabStore"
-import { useEffect } from "react";
 
 export const EditorComponent = () => {
 
+    let timerId=null;
+    const { activeFileTab } = useActiveFileTabStore();
     const { editorSocket } = useEditorSocketStore();
-    const { activeFileTab,setActiveFileTab } = useActiveFileTabStore();
 
-    console.log("EDITOR COMPOENTN:",editorSocket);
-    
-    useEffect(() => {
-        if(!editorSocket) return ;
+    function handleChange(value) {
 
-        const handleReadFile = (data) => {
-            console.log("Data Received from socket:",data);
-            setActiveFileTab(data.path,data.data,undefined);
+        // Implement debouncing
+        // Clear old times
+        if(timerId !== null){
+            clearTimeout(timerId);
         }
+        // set the new timer
+        timerId = setTimeout(() => {
+            const editorContent = value;
+            console.log("Sending write file event")
+            editorSocket.emit("writeFile",{
+                data: editorContent,
+                pathToFileOrFolder: activeFileTab.path
+            })
+        },2000);
 
-        // Attach the listner
-        editorSocket.on("readFileSuccess",handleReadFile);
+        
 
-        // clean up state
-        return () => {
-            console.log(activeFileTab);
-            editorSocket.off("readFileSuccess",handleReadFile);
-        }
-    },[editorSocket,setActiveFileTab]);
+    }
 
     return (
         <>
@@ -41,8 +42,8 @@ export const EditorComponent = () => {
                 fontSize: 18,
                 fontFamily: 'monospace'
              }}
-
-             value={ activeFileTab?.value || "// Welceom to playground"  }
+             value={ activeFileTab?.value || "// Welcome to playground"  }
+             onChange={handleChange}
             />
         </>
     )

@@ -7,7 +7,8 @@ export const handleEditorSocketEvents = (socket) => {
         try {
             const response = await fs.writeFile(pathToFileOrFolder,data);
             socket.emit("writeFileSuccess"), {
-                data: "File Written Successfully"
+                data: "File Written Successfully",
+                // value: response.toString()
             }
         } catch (error) {
             console.log("Error writing the file",error);
