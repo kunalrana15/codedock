@@ -35,6 +35,9 @@ io.on("connection",(socket) => {
 
 const editorNamespace = io.of('/editor');
 
+    // console.log("EDITOR NAMESPACE IS:",editorNamespace);
+
+
 editorNamespace.on('connection',(socket) => {
    
     console.log("Editor Connected");
@@ -60,7 +63,7 @@ editorNamespace.on('connection',(socket) => {
         })
     }
     
-    handleEditorSocketEvents(socket);
+    handleEditorSocketEvents(socket,editorNamespace);
 
     socket.on("disconnect",async () => {
         await watcher.close();
