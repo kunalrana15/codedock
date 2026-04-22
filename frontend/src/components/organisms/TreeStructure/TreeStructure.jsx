@@ -1,12 +1,17 @@
 import { useTreeStructureStore } from "../../../store/treeStructureStore"
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Tree } from "../../molecules/Tree/Tree";
+import { useFileContextMenuStore } from "../../../store/fileContextMenuStore";
+import { FileContextMenu } from "../../molecules/ContextMenu/FileContextMenu";
 
 export const TreeStructure = () => {
 
 
     const { treeStructure,setTreeStructure } = useTreeStructureStore();
-
+    const { file,
+            isOpen: fileContextOpen,
+            x: fileContextX,
+            y: fileContextY } = useFileContextMenuStore();
 
     useEffect(() => {
         if(treeStructure) {
@@ -19,10 +24,18 @@ export const TreeStructure = () => {
     console.log("TREE STRUCTURE INSIDE:",treeStructure);
 
     return (
-        <div>
-            <h1>Str</h1>
+        <>
+            {
+                fileContextOpen && fileContextX && fileContextY && (
+                    <FileContextMenu 
+                     x={fileContextX}
+                     y={fileContextY}
+                     path={file}
+                    />
+                )
+            }
             <Tree 
              fileFolderData={treeStructure} />
-        </div>
+        </>
     )
 }
