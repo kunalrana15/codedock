@@ -1,4 +1,5 @@
 import { useFileContextMenuStore } from "../../../store/fileContextMenuStore";
+import { useEditorSocketStore } from "../../../store/editorSocketStore"
 import './FileContextMenu.css'
 
 export const FileContextMenu = ({
@@ -7,10 +8,13 @@ export const FileContextMenu = ({
     path
 }) => {
 
-    const { setIsOpen } = useFileContextMenuStore()
+    const { setIsOpen } = useFileContextMenuStore();
+    const { editorSocket } = useEditorSocketStore();
+
     function handleFileDelete(e) {
         e.preventDefault();
-        console.log("Deleting File at:",path)
+        console.log("Deleting File at:",path);
+        editorSocket.emit("deleteFile",{pathToFileOrFolder:path});
     }
 
     return (
